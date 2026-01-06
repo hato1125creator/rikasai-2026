@@ -8,7 +8,10 @@ import { usePrograms } from '@/hooks/usePrograms';
 import { useAnnouncements } from '@/hooks/useAnnouncements';
 import { useRealTimeInfo } from '@/hooks/useRealTimeInfo';
 import { Link } from 'wouter';
-import { Calendar, MapPin, Sparkles, Trophy, Clock, Info, AlertCircle, Package } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Calendar, MapPin, Sparkles, Trophy, Clock, Info, AlertCircle, Package, ArrowRight, Star } from 'lucide-react';
+import HeroBackground from '@/components/HeroBackground';
+import CountdownTimer from '@/components/CountdownTimer';
 
 export default function Home() {
   const { programs } = usePrograms();
@@ -25,48 +28,67 @@ export default function Home() {
   return (
     <Layout>
       {/* ヒーローセクション */}
-      <section className="relative bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 py-20 md:py-32">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <Badge className="bg-primary text-primary-foreground text-base px-4 py-2">
-              <Sparkles className="h-4 w-4 inline mr-2" />
-              {festivalInfo.year}年度
-            </Badge>
-            <h1 className="font-black text-4xl md:text-6xl lg:text-7xl">
-              <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                千葉英和高等学校 梨花祭2026
-              </span>
-            </h1>
-            <p className="text-2xl md:text-3xl font-bold text-foreground/80">
-              {festivalInfo.theme}
-            </p>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+      <section className="relative overflow-hidden min-h-[90vh] flex items-center py-20">
+        <HeroBackground />
+        <div className="container relative z-10">
+          <div className="max-w-4xl mx-auto text-center space-y-10">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center rounded-full border border-primary/20 px-4 py-1.5 text-sm font-bold bg-primary/10 text-primary backdrop-blur-md"
+            >
+              <Star className="h-4 w-4 mr-2 fill-primary" />
+              {festivalInfo.year}年度 梨花祭
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-tight">
+                <span className="bg-gradient-to-r from-primary via-purple-500 to-secondary bg-clip-text text-transparent">
+                  梨花祭2026
+                </span>
+              </h1>
+              <p className="mt-6 text-2xl md:text-4xl font-black text-foreground tracking-tight">
+                {festivalInfo.theme}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              <CountdownTimer targetDate="2026-07-19T10:00:00" />
+            </motion.div>
+
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed font-medium"
+            >
               {festivalInfo.description}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
-              <div className="flex items-center gap-2 text-lg">
-                <Calendar className="h-5 w-5 text-primary" />
-                <span className="font-semibold">{festivalInfo.dates.publicDay}</span>
-              </div>
-              <div className="hidden sm:block text-muted-foreground">|</div>
-              <div className="flex items-center gap-2 text-lg">
-                <Clock className="h-5 w-5 text-secondary" />
-                <span className="font-semibold">10:00 〜 16:00</span>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-4 justify-center mt-8">
-              <Link href="/programs">
-                <Button size="lg" className="text-base">
-                  企画を見る
-                </Button>
-              </Link>
-              <Link href="/access">
-                <Button size="lg" variant="outline" className="text-base">
-                  <MapPin className="h-4 w-4 mr-2" />
-                  アクセス
-                </Button>
-              </Link>
-            </div>
+            </motion.p>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1 }}
+              className="flex flex-wrap justify-center gap-6 pt-4"
+            >
+              <Button size="lg" className="h-14 rounded-full px-10 text-lg font-black shadow-xl shadow-primary/30 hover:scale-105 transition-transform" asChild>
+                <Link href="/programs">
+                  企画をチェック <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="h-14 rounded-full px-10 text-lg font-black bg-background/50 backdrop-blur-md border-2 hover:bg-background/80 transition-all" asChild>
+                <Link href="/access">アクセス情報</Link>
+              </Button>
+            </motion.div>
           </div>
         </div>
       </section>

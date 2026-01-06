@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MapPin, Clock } from 'lucide-react';
 import { Program } from '@/types';
+import { motion } from 'framer-motion';
 
 
 interface ProgramCardProps {
@@ -47,7 +48,12 @@ function formatTime(timeString: string): string {
 
 export default function ProgramCard({ program }: ProgramCardProps) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+    <motion.div
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 300 }}
+    >
+      <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500 border-primary/10 relative group">
+        <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       {program.images.length > 0 && (
         <div className="aspect-video overflow-hidden bg-muted">
           <img
@@ -100,6 +106,7 @@ export default function ProgramCard({ program }: ProgramCardProps) {
         )}
       </CardContent>
 
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
